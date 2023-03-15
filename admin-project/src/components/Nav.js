@@ -1,9 +1,11 @@
-const Nav = () => {
+import {Link} from 'react-router-dom';
+
+const Nav = (props) => {
     return (
         <div>
-            <div>Login</div>
-            <div>Users</div>
-            <div></div>
+            <Link to='/'>Home</Link>
+            <Link to='/login'>Login</Link>
+            <Link to='/admin'>Admin</Link>
         </div>
     )
 }
