@@ -1,4 +1,9 @@
-const UserProfile = () => {
+import {useState, useEffect} from 'react'
+
+const UserProfile = ({id}) => {
+    // useEffect(()=>{
+
+    // },[])
     return (
         <div>
             <p>UserProfile</p>

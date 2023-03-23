@@ -51,7 +51,7 @@ export const resetPass = async(req,res)=> {
 
         );
 
-        res.json(user)
+        res.json({msg:'password reset successful'})
     
     }
     
@@ -62,11 +62,11 @@ export const resetPass = async(req,res)=> {
 }
 
 export const resetStatus = async(req,res)=> {
-    
+    console.log(req.body)
     try {
         const user = Users.update(
             {
-                status:req.body.status
+                status:req.body.user_status
             },
             {
                 where:
@@ -77,8 +77,8 @@ export const resetStatus = async(req,res)=> {
             }
 
         );
-
-        res.json(user)
+        console.log(user)
+        res.json({msg:'status updated'})
     
     }
     
