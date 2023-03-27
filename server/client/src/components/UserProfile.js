@@ -1,13 +1,13 @@
 import {useState, useEffect} from 'react'
-
-const UserProfile = ({id}) => {
+import ToDo from './Todo'
+const UserProfile = ({user_id}) => {
     // useEffect(()=>{
 
     // },[])
     return (
         <div>
             <p>UserProfile</p>
-            <div>todo list</div>
+            <ToDo user_id={user_id}/>
             <div>contact</div>
         </div>
     )

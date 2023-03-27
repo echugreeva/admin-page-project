@@ -47,6 +47,17 @@ export const ToDo = db.define('ad_todo', {
     },
     description:{
         type:DataTypes.STRING
+    },
+    done: {
+        type:DataTypes.BOOLEAN
+    },
+    createdAt: {
+        field: 'createdat',
+        type:DataTypes.DATE
+    },
+    updatedAt: {
+        field: 'updatedat',
+        type:DataTypes.DATE
     }
     },
     {
@@ -72,7 +83,7 @@ export const Contact = db.define('ad_contact', {
         freezeTableName: true
     }
 )
-ToDo.belongsTo(Users, {foreignKey:'user_id'})
-Contact.belongsTo(Users, {foreignKey:'user_id'})
-Users.hasMany(ToDo, {onDelete: 'CASCADE'})
-Users.hasOne(Contact, {onDelete: 'CASCADE'})
+// ToDo.belongsTo(Users, {foreignKey:'user_id'})
+// Contact.belongsTo(Users, {foreignKey:'user_id'})
+// Users.hasMany(ToDo, {onDelete: 'CASCADE'})
+// Users.hasOne(Contact, {onDelete: 'CASCADE'})

@@ -1,4 +1,4 @@
-import {Users} from '../model/dbModels.js'
+import {Users,ToDo} from '../model/dbModels.js'
 
 // export const addUsers = async(req,res)=>{
 //     try {
@@ -62,7 +62,7 @@ export const resetPass = async(req,res)=> {
 }
 
 export const resetStatus = async(req,res)=> {
-    console.log(req.body)
+    // console.log(req.body)
     try {
         const user = Users.update(
             {
@@ -79,6 +79,106 @@ export const resetStatus = async(req,res)=> {
         );
         console.log(user)
         res.json({msg:'status updated'})
+    
+    }
+    
+    catch(e){
+        console.log(e);
+        res.status(404).json({msg:'update not successful'})
+    }
+}
+
+
+export const getTodos  = async(req,res)=> {
+    console.log(req.params.uid)
+    
+    try {
+        const todos = await ToDo.findAll(
+            {
+                where:
+                    {
+                        user_id: Number(req.params.uid)
+                       },
+                
+            }
+            // {
+            //     attributes:['to_do_id', 'description', 'done', 'user_id']
+            // }
+            
+        );
+        // console.log(todos)    
+        res.json(todos)
+
+        
+    }
+    catch(e){
+        console.log(e);
+        res.status(404).json({msg:'not found'})
+    }
+}
+
+export const addTodos =  async(req,res)=>{
+        try {
+            await ToDo.create({
+                description:req.body.userInput,
+                user_id: req.params.uid,
+                
+            })
+            res.json({msg:'added'})
+        }
+        catch(e){
+            console.log(e);
+            // res.status(404).json({msg:'email not found'})
+        }
+    }
+
+export const updateTodos = async(req,res)=> {
+    // console.log(req.body)
+    try {
+        const updatedToDo = ToDo.update(
+            {
+                // description:req.body.description, 
+                done:req.body.done
+            },
+            {
+                where:
+                    {
+                        to_do_id: req.body.to_do_id
+                       },
+                
+            }
+
+        );
+        console.log(updatedToDo)
+        res.json({msg:'status updated'})
+    
+    }
+    
+    catch(e){
+        console.log(e);
+        res.status(404).json({msg:'update not successful'})
+    }
+}
+
+export const deleteTodos = async(req,res)=> {
+    console.log(req.body)
+    console.log(req.data)
+    try {
+        const smth = 
+        await ToDo.destroy(
+            
+            {
+                where:
+                    {
+                        to_do_id: 3
+                       }
+                
+            }
+
+        );
+        
+        console.log(smth)
+        res.json({msg:'removed'})
     
     }
     
