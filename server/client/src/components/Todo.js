@@ -1,25 +1,29 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect,useCallback} from 'react'
 import axios from 'axios';
 
 const ToDo = ({user_id}) => {
     const [todo, setTodo] = useState([]);
     const [userInput, setInput] = useState('');
 
-    useEffect(()=>{
-    fetch(`http://localhost:3030/todo/${user_id}`)
-    .then(res=>{
-        if(res.status == 200) {
-            console.log(res)
-            return res.json()
-        }}
-        )
-    .then(data=>{
-        console.log(data)
-        setTodo(data)
+    const fetchUserTodo = ()=>{
+        fetch(`http://localhost:3030/todo/${user_id}`)
+        .then(res=>{
+            if(res.status == 200) {
+                console.log(res)
+                return res.json()
+            }}
+            )
+        .then(data=>{
+            console.log(data)
+            setTodo(data)
+        }
+            
+            )
+        .catch(e=>{console.log(e)})
     }
-        
-        )
-    .catch(e=>{console.log(e)})
+
+    useEffect(()=>{
+   fetchUserTodo()
 },[])
 
 const handleSubmit = async() => {
@@ -33,6 +37,7 @@ const handleSubmit = async() => {
             }
         })
         alert((await response).data.msg)
+       fetchUserTodo()
     }
     
     catch (e){
@@ -40,9 +45,28 @@ const handleSubmit = async() => {
     }
     }
 
+    const updateTodo = async(id, status) => {
+
+        try {
+            const response = axios.post('http://localhost:3030/todo-update', {
+            id, status
+        },  {
+                withCredentials:true, 
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            alert((await response).data.msg)
+        }
+        
+        catch (e){
+        console.log(e.response.data.msg)
+        }
+        }
+
     const deleteToDo = async(id) => {
         try {
-            const response = axios.post(`http://localhost:3030/todo/delete`, {data:{ id:id}
+            const response = axios.post('http://localhost:3030/todo-delete', {id
             
         },  {
                 withCredentials:true, 
@@ -66,8 +90,15 @@ return (
                     return (
                         <div key={item.to_do_id}>
                             <p>{item.description}</p>
-                            <button onClick={()=>{deleteToDo(item.to_do_id)}}>Remove</button>
-                            <button >Edit</button>
+                            <button onClick={()=>{
+                                deleteToDo(item.to_do_id)
+                                fetchUserTodo()
+                            }}>Remove</button>
+                            <p>{item.done===false?"to do" : "done"}</p>
+                            <button onClick={()=>{
+                                updateTodo(item.to_do_id, !item.done)
+                                fetchUserTodo()
+                                }}>mark as done</button>
                         </div>
                           
                     )
@@ -81,7 +112,7 @@ return (
         }}>
         <label>
           New to do:
-          <input type="text" onChange={(e)=>{setInput(e.target.value)}} placeholder={userInput} />
+          <input type="text" onChange={(e)=>{setInput(e.target.value)}} placeholder={userInput} value={userInput} />
         </label>
         <input type="submit" value="Add" />
       </form>

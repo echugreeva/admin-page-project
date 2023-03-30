@@ -1,4 +1,7 @@
-import {Users,ToDo} from '../model/dbModels.js'
+import { QueryTypes } from 'sequelize';
+import {Users} from '../model/dbModels.js'
+import { ToDo } from '../model/ToDo.js';
+
 
 // export const addUsers = async(req,res)=>{
 //     try {
@@ -133,23 +136,22 @@ export const addTodos =  async(req,res)=>{
     }
 
 export const updateTodos = async(req,res)=> {
-    // console.log(req.body)
+    // console.log('received update req on to do status')
     try {
-        const updatedToDo = ToDo.update(
+        const smth = await ToDo.update(
             {
-                // description:req.body.description, 
-                done:req.body.done
+                done:req.body.status
             },
             {
                 where:
                     {
-                        to_do_id: req.body.to_do_id
+                        to_do_id: req.body.id
                        },
                 
             }
 
         );
-        console.log(updatedToDo)
+        // console.log(smth)
         res.json({msg:'status updated'})
     
     }
@@ -158,7 +160,22 @@ export const updateTodos = async(req,res)=> {
         console.log(e);
         res.status(404).json({msg:'update not successful'})
     }
-}
+} 
+
+// export const delToDo = async (req,res) => {
+//     console.log(req.body.id)
+
+//     try {
+//         await ToDo.query(`DELETE * FROM ad_todo WHERE to_do_id = ${req.body.id}`, {
+//             type: QueryTypes.DELETE
+//         })
+//         res.json({msg:'removed'})
+//     }
+//     catch (e){
+//         console.log(e);
+//         res.status(404).json({msg:'update not successful'})
+//     }
+// }
 
 export const deleteTodos = async(req,res)=> {
     console.log(req.body)
@@ -170,14 +187,14 @@ export const deleteTodos = async(req,res)=> {
             {
                 where:
                     {
-                        to_do_id: 3
+                        to_do_id: req.body.id
                        }
                 
             }
 
         );
         
-        console.log(smth)
+        // console.log(smth)
         res.json({msg:'removed'})
     
     }
