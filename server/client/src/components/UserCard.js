@@ -1,14 +1,16 @@
 import axios from 'axios';
-import {useState, useEffect, useCallback} from 'react'
-// import {useNavigate} from 'react-router-dom'
-import UserProfile from './UserProfile';
+import {useState,useContext} from 'react'
+import {useNavigate} from 'react-router-dom'
+import { AppContext } from '../App';
 
 
 const UserCard = ({data}) => {
+    const navigate = useNavigate();
     console.log({data})
     const [user_id, setId]=useState(data.user_id)
     const [user_status, setStatus] = useState('')
-    const [showUser, setShow]=useState(false)
+    const {userProfileId, setProfile} = useContext(AppContext)
+    // const [showUser, setShow]=useState(false)
 
     const handleResetPass = async() => {
         try {
@@ -81,11 +83,20 @@ const UserCard = ({data}) => {
             <option value='viewer'>viewer</option>
             <option value='standard'>standard</option>
         </select>
-                <button onClick={()=>{setShow(!showUser)}}>{showUser?"close" : "more info"}</button>
-                <button onClick={handleResetPass}>reset password</button>
+        <button onClick={handleResetPass}>reset password</button>
+                {/* <button onClick={()=>{setShow(!showUser)
+                
+            //  navigate('/user')    
+            }
+                
+            }>{showUser?"close" : "more info"}</button>
+
         {
           showUser &&  <UserProfile user_id={user_id}/>
-        }
+        } */}
+        <button onClick={()=>{
+            setProfile(data)
+            navigate('/user')}}>edit user's todo</button>
         </>
     )
 }

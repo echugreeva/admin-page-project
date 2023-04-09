@@ -1,13 +1,25 @@
-import {Link} from 'react-router-dom';
+import {Link,useLocation} from 'react-router-dom';
+
+
 
 const Nav = (props) => {
-    return (
-        <div>
-            <Link to='/'>Home</Link>
-            <Link to='/login'>Login</Link>
-            <Link to='/admin'>Admin</Link>
-        </div>
-    )
+    const location = useLocation();
+    if (location.pathname === '/admin' || location.pathname === '/user' ){
+        return (
+            <div>
+                <Link to='/'>Logout</Link>
+                {/* <Link to='/login'>Login</Link> */}
+                <Link to='/admin'>Admin</Link>
+            </div>
+        )  
+    } else {
+        return (
+            <div>
+                <h1>Please, login to proceed</h1>
+            </div>
+        )
+    }
+    
 }
 
 export default Nav

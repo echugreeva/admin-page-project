@@ -1,8 +1,8 @@
 import express from "express";
-import { getUsers, resetPass, resetStatus, getTodos,addTodos,updateTodos,deleteTodos} from "../controllers/Users.js";
+import { getUsers, resetPass, resetStatus, getTodos,addTodos,updateTodos,deleteTodos, checkLogin} from "../controllers/Users.js";
 const userRouter = express.Router();
 
-
+userRouter.post('/login', checkLogin)
 userRouter.get('/admin',getUsers);
 userRouter.post('/reset', resetPass)
 userRouter.post('/set-status', resetStatus)

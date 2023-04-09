@@ -18,6 +18,31 @@ import { ToDo } from '../model/ToDo.js';
 //     }
 // }
 
+export const checkLogin = async (req,res)=>{
+    //add also that user is admin
+    try {
+        const user = await Users.findAll({
+            where: {
+                username:req.body.username.toLowerCase(),
+                password:req.body.password
+            }
+        });
+        if (user){
+            res.json({msg: `success`})
+        }
+
+
+
+        
+
+        
+    }
+    catch(e){
+        console.log(e);
+        res.status(404).json({msg:'username or password are incorrect'})
+    }
+}
+
 export const getUsers  = async(req,res)=> {
     
     try {
@@ -36,6 +61,8 @@ export const getUsers  = async(req,res)=> {
         res.status(404).json({msg:'not found'})
     }
 }
+
+
 
 export const resetPass = async(req,res)=> {
     

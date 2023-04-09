@@ -1,12 +1,15 @@
-import {useState, useEffect,useCallback} from 'react'
+import {useState, useEffect,useContext} from 'react'
 import axios from 'axios';
+import { AppContext } from '../App';
 
-const ToDo = ({user_id}) => {
+const ToDo = () => {
+    const {userProfileId, setProfile} = useContext(AppContext);
     const [todo, setTodo] = useState([]);
     const [userInput, setInput] = useState('');
+    
 
     const fetchUserTodo = ()=>{
-        fetch(`http://localhost:3030/todo/${user_id}`)
+        fetch(`http://localhost:3030/todo/${userProfileId.user_id}`)
         .then(res=>{
             if(res.status == 200) {
                 console.log(res)
@@ -27,8 +30,9 @@ const ToDo = ({user_id}) => {
 },[])
 
 const handleSubmit = async() => {
+    const user_id=userProfileId.user_id
     try {
-        const response = axios.post(`http://localhost:3030/todo/${user_id}`, {
+        const response = axios.post(`http://localhost:3030/todo/${userProfileId.user_id}`, {
         user_id, userInput
     },  {
             withCredentials:true, 
@@ -57,6 +61,7 @@ const handleSubmit = async() => {
                 }
             })
             alert((await response).data.msg)
+            fetchUserTodo()
         }
         
         catch (e){
@@ -75,6 +80,7 @@ const handleSubmit = async() => {
                 }
             })
             alert((await response).data.msg)
+            fetchUserTodo()
         }
         
         catch (e){
@@ -84,7 +90,7 @@ const handleSubmit = async() => {
 
 return (
     <>
-    <h2>User's to do</h2>
+    <h2>{userProfileId.username}'s to do</h2>
             {
                 todo ? todo.map(item=>{
                     return (
@@ -92,12 +98,12 @@ return (
                             <p>{item.description}</p>
                             <button onClick={()=>{
                                 deleteToDo(item.to_do_id)
-                                fetchUserTodo()
+                                // fetchUserTodo()
                             }}>Remove</button>
                             <p>{item.done===false?"to do" : "done"}</p>
                             <button onClick={()=>{
                                 updateTodo(item.to_do_id, !item.done)
-                                fetchUserTodo()
+                                // fetchUserTodo()
                                 }}>mark as done</button>
                         </div>
                           
