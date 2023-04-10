@@ -1,22 +1,43 @@
 import {Link,useLocation} from 'react-router-dom';
-
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 
 const Nav = (props) => {
     const location = useLocation();
     if (location.pathname === '/admin' || location.pathname === '/user' ){
         return (
-            <div>
-                <Link to='/'>Logout</Link>
-                {/* <Link to='/login'>Login</Link> */}
-                <Link to='/admin'>Admin</Link>
-            </div>
+            <AppBar>
+                <Toolbar>
+                    <Button 
+                    variant="contained" 
+                    component={Link} to='/'
+                    sx={{
+                        mx:2,
+                        color:'white'
+                    }}
+                    >
+                        Logout
+                    </Button>
+                    <Button
+                    variant="contained"
+                    color='secondary'
+                    component={Link} to='/admin'
+                    >
+                       Admin
+                    </Button>                
+                </Toolbar>
+            </AppBar>
         )  
     } else {
         return (
-            <div>
-                <h1>Please, login to proceed</h1>
-            </div>
+            <AppBar>
+                <Toolbar>
+                    {/* <Typography>Please, login to proceed</Typography> */}
+                </Toolbar>                
+            </AppBar>
         )
     }
     

@@ -5,9 +5,10 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+
 
 const Login = (props) => {
     const [username, setUser] = useState('');
@@ -39,24 +40,39 @@ const Login = (props) => {
     
 
     return (
-        <Box
+        <Paper elevation={1}
         sx={{
-            marginTop: 8,
+            width: '45%',
+            mt: 12,
+            mx:'auto',
+            p:2,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            space: 2
+            
         }}
         >
            
-
-                <TextField type='text' placeholder='username' onChange={(e)=>{setUser(e.target.value)}}/>
+                <Typography variant="h3">Please, login to proceed</Typography>
+                <TextField type='text' placeholder='username' onChange={(e)=>{setUser(e.target.value)}}
+                sx={{
+                    m:2
+                }}
+                />
                 <TextField type='password' placeholder='password' onChange={(e)=>{setPassword(e.target.value)}} />
-                <Button fullWidth onClick={handleLogin}>login</Button>
+                <Button 
+                variant="contained"
+                color="primary"
+                onClick={handleLogin}
+                sx={{
+                    m:2,
+                    width: '25%'
+                }}
+                >login</Button>
        
 
             
-        </Box>
+        </Paper>
     )
 }
 

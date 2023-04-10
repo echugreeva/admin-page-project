@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import UserCard from "./UserCard"
+import Container from '@mui/material/Container';
 
 const Users = () => {
 
@@ -19,7 +20,18 @@ const Users = () => {
 
 
     return(
-        <div>
+        <Container
+        sx={{
+            mt:2,
+            mx: 'auto',
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+            alignContent: 'space-around' 
+        }}
+        >
         {
                 users ? users.map(item=>{
                     return (
@@ -28,7 +40,7 @@ const Users = () => {
                     )
                 }) : 'Unathorized'
             }
-        </div>
+        </Container>
     )
 }
 
